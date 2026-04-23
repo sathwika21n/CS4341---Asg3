@@ -1,33 +1,38 @@
 `timescale 1ns / 1ps
 
 // Question 1
-// 32-bit ALU matching the common Figure 5.15 MIPS-style ALU.
-//
-// ALUControl:
-//   3'b000: AND
-//   3'b001: OR
-//   3'b010: ADD
-//   3'b110: SUBTRACT
-//   3'b111: SET LESS THAN, signed
-//
-// Zero is asserted when Result is 0.
 module alu32 (
+    //first 32-bit operand
     input  wire [31:0] A,
+    //second 32-bit operand
     input  wire [31:0] B,
-    input  wire [2:0]  ALUControl,
-    output reg  [31:0] Result,
+    //3-bit control signal to select the ALU operation
+    input  wire [2:0]  ALUCntrl,
+    //this is 32-bit result of the ALU operation
+    output reg  [31:0] result,
+    //flag=1 if the result is 0
     output wire        Zero
 );
+    //combinational logic block 
+    //updates whenever the inputs change
     always @(*) begin
-        case (ALUControl)
-            3'b000: Result = A & B;
-            3'b001: Result = A | B;
-            3'b010: Result = A + B;
-            3'b110: Result = A - B;
-            3'b111: Result = ($signed(A) < $signed(B)) ? 32'b1 : 32'b0;
-            default: Result = 32'b0;
+        case (ALUCntrl)
+            //bitwise AND
+            3'b000: result = A & B;
+            //bitwise OR
+            3'b001: result = A | B;
+            //addition
+            3'b010: result = A + B;
+            //subtraction
+            3'b110: result = A - B;
+            //set less than, signed
+            3'b111: result = ($signed(A) < $signed(B)) ? 32'b1 : 32'b0;
+            //default case to handle invalid ALUCntrl values
+            default: result = 32'b0;
         endcase
     end
 
-    assign Zero = (Result == 32'b0);
+    //this is the zero flag logic
+    //if result is all zeroes, set zero = 1, otherwise 0
+    assign Zero = (result == 32'b0);
 endmodule

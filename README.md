@@ -9,9 +9,11 @@ This folder contains Verilog HDL answers for:
 ## Files
 
 - `question1_alu32.v`: HDL module for question 1
+- `question1_alu32_tb.v`: testbench for question 1
 - `question5_priority8.v`: HDL module for question 5
+- `question5_priority8_tb.v`: testbench for question 5
 - `question7_sr_latch.v`: HDL module for question 7
-- `questions_1_5_7_tb.v`: simple testbench for the three modules
+- `question7_sr_latch_tb.v`: testbench for question 7
 
 ## Question 1 ALU Controls
 
@@ -31,7 +33,23 @@ The `Zero` output is asserted when the ALU result is `0`.
 
 If Icarus Verilog is installed:
 
+Question 1:
+
 ```sh
-iverilog -o questions_1_5_7_tb.out question1_alu32.v question5_priority8.v question7_sr_latch.v questions_1_5_7_tb.v
-vvp questions_1_5_7_tb.out
+iverilog -o q1.out question1_alu32.v question1_alu32_tb.v
+vvp q1.out
+```
+
+Question 5:
+
+```sh
+iverilog -o q5.out question5_priority8.v question5_priority8_tb.v
+vvp q5.out
+```
+
+Question 7:
+
+```sh
+iverilog -o q7.out question7_sr_latch.v question7_sr_latch_tb.v
+vvp q7.out
 ```
